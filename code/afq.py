@@ -19,13 +19,21 @@ from AFQ import api
 import AFQ.data as afd
 
 
-
 def main():
     parser = ArgumentParser()
     parser.add_argument("--run-id", "-i", default=None)
     parser.add_argument("--data-path", "-p", default=None)
     parser.add_argument("--dataset", "-d", default="stanford_hardi")
+    parser.add_argument("--setup", "-s", action="store_true")
+
     results = parser.parse_args()
+
+    if results.setup:
+        afd.organize_stanford_data()
+        afd.fetch_templates()
+        afd.fetch_hcp_atlas_16_bundles()
+        afd.fetch_hcp_atlas_80_bundles()
+        return 0
 
     orig_dp = op.join(afd.afq_home, results.dataset)
     bp = results.data_path if results.data_path else afd.afq_home
@@ -47,9 +55,6 @@ def main():
         except FileExistsError:
             pass
 
-    #   ``AFQ_data/stanford_hardi/``
-    # afd.organize_stanford_data(clear_previous_afq=True)
-
     return -1
     # Run AFQ
     myafq = api.AFQ(bids_path=dp,
@@ -57,13 +62,6 @@ def main():
                     reg_subject="b0",
                     dmriprep='vistasoft',
                     viz_backend='plotly_no_gif')
-
-    # FA_fname = myafq.dti_fa[0]
-    # FA_img = nib.load(FA_fname)
-    # FA = FA_img.get_fdata()
-    # fig, ax = plt.subplots(1)
-    # ax.matshow(FA[:, :, FA.shape[-1] // 2], cmap='viridis')
-    # ax.axis("off")
 
 
 if __name__ == "__main__":
