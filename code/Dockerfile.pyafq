@@ -12,7 +12,7 @@ RUN cd /opt/build/ &&\
 
 COPY afq.py /opt/build/afq.py 
 
-ENV VFC_BACKENDS='libinterflop_mca.soi -m rr'
+ENV VFC_BACKENDS='libinterflop_mca.so -m rr'
 ENV VFC_BACKENDS_LOGGER="True"
 RUN unset VFC_BACKENDS_FROM_FILE
 
