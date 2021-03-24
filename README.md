@@ -1,5 +1,16 @@
 ### Procedure to follow:
 
+0. Download or build singularity container
+
+    $ module load singularity
+    $
+    $ singularity pull docker://gkiar/fuzzy:pyafq
+    $
+    $ # OR, if this doesn't work on your system, follow a guide for direct-builds
+    $ # from downloaded Docker images, such as the one shown here:
+    $ #   https://docs.computecanada.ca/wiki/Singularity
+
+
 1. Run the setup script on a head-node (it involves downlaoding data)
 
     $ module load singularity
@@ -18,6 +29,8 @@
 
 3. Enter singularity environment
 
+    $ module load singularity
+    $
     $ singularity exec -B ${PWD} -B ${HOME} fuzzyafq.sif /bin/bash
 
 
