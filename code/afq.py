@@ -52,16 +52,23 @@ def main():
                        op.join(dp, 'derivatives', 'freesurfer'))
             os.symlink(op.join(orig_dp, 'derivatives', 'vistasoft'),
                        op.join(dp, 'derivatives', 'vistasoft'))
+            os.symlink(op.join(orig_dp, 'dataset_description.json'),
+                       op.join(dp, 'dataset_description.json'))
         except FileExistsError:
             pass
 
-    return -1
     # Run AFQ
     myafq = api.AFQ(bids_path=dp,
                     reg_template="mni_T2",
                     reg_subject="b0",
                     dmriprep='vistasoft',
                     viz_backend='plotly_no_gif')
+
+    bundle_html = myafq.viz_bundles(export=True, n_points=50)
+    plotly.io.show(bundle_html[0])
+
+    myafq.plot_tract_profiles()
+    fig_files = myafq.data_frame['tract_profiles_viz'][0]
 
 
 if __name__ == "__main__":
