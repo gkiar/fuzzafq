@@ -1,4 +1,4 @@
-FROM yohanchatelain/fuzzy:python-numpy-scipy-v0.4.1
+FROM verificarlo/fuzzy:v0.4.1-lapack-python3.8.5-numpy-scipy
 
 ENV VFC_BACKENDS='libinterflop_ieee.so'
 
@@ -12,7 +12,11 @@ RUN cd /opt/build/ &&\
 
 COPY afq.py /opt/build/afq.py 
 
+RUN cd /opt/build/ &&\
+    git clone https://github.com/yohanchatelain/pytracer &&\
+    cd /opt/build/pytracer &&\
+    pip3 install .
+
 ENV VFC_BACKENDS='libinterflop_mca.so -m rr'
 ENV VFC_BACKENDS_LOGGER="True"
-RUN unset VFC_BACKENDS_FROM_FILE
 
